@@ -1,0 +1,93 @@
+{
+  "name": "codevox-assistant",
+  "displayName": "CodeVox: Voice Developer Assistant",
+  "description": "Ambient voice-first AI pair programmer. Capture editor context and get instant voice answers via Vapi + Qdrant.",
+  "version": "0.1.0",
+  "publisher": "hackblr",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["AI", "Programming Languages", "Other"],
+  "keywords": ["voice", "ai", "assistant", "code", "debug", "rag", "qdrant", "vapi"],
+  "activationEvents": [
+  "workspaceContains:**/*.py",  
+  "workspaceContains:**/*.ts"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codevox.startVoice",
+        "title": "CodeVox: Start Voice Assistant",
+        "category": "CodeVox",
+        "icon": "$(microphone)"
+      },
+      {
+        "command": "codevox.indexProject",
+        "title": "CodeVox: Index Project for Voice Search",
+        "category": "CodeVox",
+        "icon": "$(database)"
+      },
+      {
+        "command": "codevox.openUI",
+        "title": "CodeVox: Open Voice UI",
+        "category": "CodeVox",
+        "icon": "$(comment-discussion)"
+      }
+    ],
+    "configuration": {
+      "title": "CodeVox",
+      "properties": {
+        "codevox.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "URL of your CodeVox backend server (FastAPI)."
+        },
+        "codevox.pushInterval": {
+          "type": "number",
+          "default": 1500,
+          "description": "How often to push editor context to backend (milliseconds)."
+        },
+        "codevox.autoIndex": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically index project on workspace open."
+        }
+      }
+    },
+    "menus": {
+      "commandPalette": [
+        { "command": "codevox.startVoice", "when": "editorTextFocus" },
+        { "command": "codevox.indexProject", "when": "workspaceFolderCount > 0" }
+      ],
+      "editor/context": [
+        { "command": "codevox.startVoice", "group": "navigation@1" }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
+    "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Shubhangi-thakur24/CodeVox"
+  },
+  "bugs": {
+    "url": "https://github.com/Shubhangi-thakur24/CodeVox/issues"
+  },
+  "homepage": "https://github.com/Shubhangi-thakur24/CodeVox#readme"
+}
